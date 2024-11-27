@@ -1,0 +1,11 @@
+.idea
+
+# exclude mysql data dir
+bm-mysql/var
+
+# exclude bin directory
+bigtop-manager/bigtop-manager-server
+bigtop-manager-agent/bigtop-manager-agent
+
+# exclude others
+*.http

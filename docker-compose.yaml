@@ -1,0 +1,58 @@
+version: '2'
+
+services:
+  bm-master:
+    build:
+      context: bigtop-manager
+    command: /opt/bigtop-manager/bin/start.sh
+    image: bigtop-manager:0.0.1
+    ports:
+      - 18080:8080
+    volumes:
+      - ./bigtop-manager/conf:/opt/bigtop-manager/conf
+      - ./bigtop-manager/bin/env.sh:/opt/bigtop-manager/bin/env.sh
+
+  bm-node1:
+    build:
+      context: bigtop-manager-agent
+    image: bigtop-node:0.0.1
+    command: /opt/bigtop-manager-agent/bin/start.sh
+    ports:
+      - 18081:8081
+    volumes:
+      - ./bigtop-manager-agent/conf:/opt/bigtop-manager-agent/conf
+      - ./bigtop-manager-agent/bin/env.sh:/opt/bigtop-manager-agent/bin/env.sh
+
+  bm-node2:
+    build:
+      context: bigtop-manager-agent
+    image: bigtop-node:0.0.1
+    command: /opt/bigtop-manager-agent/bin/start.sh
+    ports:
+      - 18082:8081
+    volumes:
+      - ./bigtop-manager-agent/conf:/opt/bigtop-manager-agent/conf
+      - ./bigtop-manager-agent/bin/env.sh:/opt/bigtop-manager-agent/bin/env.sh
+
+  bm-node3:
+    build:
+      context: bigtop-manager-agent
+    image: bigtop-node:0.0.1
+    command: /opt/bigtop-manager-agent/bin/start.sh
+    ports:
+      - 18083:8081
+    volumes:
+      - ./bigtop-manager-agent/conf:/opt/bigtop-manager-agent/conf
+      - ./bigtop-manager-agent/bin/env.sh:/opt/bigtop-manager-agent/bin/env.sh
+
+  bm-mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bigtop_manager
+      MYSQL_USER: bigtop
+      MYSQL_PASSWORD: bigtop
+    volumes:
+      - ./bm-mysql/ddl:/docker-entrypoint-initdb.d:ro
+      - ./bm-mysql/var/lib/mysql:/var/lib/mysql:rw
+
